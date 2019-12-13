@@ -1,13 +1,14 @@
 plugins {
 	id 'org.springframework.boot' version '2.2.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id "io.freefair.lombok" version "4.1.6"
+//	id "io.freefair.lombok" version "4.1.6"
 	id 'java'
+	id 'idea'
 }
 
 group = 'de.atabey.kafka'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
