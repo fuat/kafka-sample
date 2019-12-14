@@ -11,10 +11,10 @@ package de.atabey.kafka.twitter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.social.twitter.api.*;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Arrays;
 
 @Component
 public class TwitterStreamListener implements ApplicationRunner {
@@ -30,7 +30,7 @@ public class TwitterStreamListener implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        twitter.streamingOperations().filter("kafka", List.of(myStreamListener));
+        twitter.streamingOperations().filter("kafka", Arrays.asList(myStreamListener));
     }
 
 }
