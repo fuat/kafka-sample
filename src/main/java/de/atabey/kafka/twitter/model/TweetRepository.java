@@ -9,9 +9,9 @@
 package de.atabey.kafka.twitter.model;
 
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TweetRepository extends ElasticsearchRepository<Tweet, String> {
-
-    Tweet findTweet(String id);
 
 }

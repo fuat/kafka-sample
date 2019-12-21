@@ -30,7 +30,7 @@ public class TwitterStreamRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        twitter.streamingOperations().filter("kafka", Arrays.asList(twitterStreamListener));
+        twitter.streamingOperations().filter("trump", Arrays.asList(twitterStreamListener));
     }
 
 }

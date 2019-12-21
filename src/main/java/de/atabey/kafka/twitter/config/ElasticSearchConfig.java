@@ -17,13 +17,14 @@ import org.springframework.data.elasticsearch.client.RestClients;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-@EnableElasticsearchRepositories
+@EnableElasticsearchRepositories("de.atabey.kafka.twitter.model")
 public class ElasticSearchConfig {
 
     @Bean
     public RestHighLevelClient elasticSearchClient() {
         return RestClients.create(ClientConfiguration.builder()
-                .connectedTo("https://mi8ur2muzc:ud91kz1ktb@twitter-5658650936.eu-central-1.bonsaisearch.net:443")
+                .connectedTo("twitter-5658650936.eu-central-1.bonsaisearch.net:443")
+                .usingSsl()
                 .withBasicAuth("mi8ur2muzc", "ud91kz1ktb")
                 .build()
         ).rest();

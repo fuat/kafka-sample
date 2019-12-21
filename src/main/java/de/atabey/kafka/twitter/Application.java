@@ -1,4 +1,4 @@
-package de.atabey.kafka.twitter.config;
+package de.atabey.kafka.twitter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
