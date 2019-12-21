@@ -1,4 +1,4 @@
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

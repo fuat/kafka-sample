@@ -1,36 +1,58 @@
-/*
- * This document contains trade secret data which is the property of
- * Ippen Digital GmbH & Co. KG. Information contained herein may not be
- * used, copied or disclosed in whole or part except as permitted by
- * written agreement from Ippen Digital GmbH & Co. KG.
- *
- * Copyright (C) 2007-2019 Ippen Digital GmbH & Co. KG / Munich / Germany
- */
 package de.atabey.kafka.twitter;
 
+import de.atabey.kafka.twitter.config.KafkaConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.social.twitter.api.Twitter;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.social.twitter.api.StreamDeleteEvent;
+import org.springframework.social.twitter.api.StreamListener;
+import org.springframework.social.twitter.api.StreamWarningEvent;
+import org.springframework.social.twitter.api.Tweet;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import java.util.Arrays;
-
+@Slf4j
 @Component
-public class TwitterStreamListener implements ApplicationRunner {
+class TwitterStreamListener implements StreamListener {
 
-    private final Twitter twitter;
-    private final MyStreamListener myStreamListener;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public TwitterStreamListener(Twitter twitter, MyStreamListener myStreamListener) {
-        this.twitter = twitter;
-        this.myStreamListener = myStreamListener;
+    TwitterStreamListener(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        twitter.streamingOperations().filter("kafka", Arrays.asList(myStreamListener));
+    public void onTweet(Tweet tweet) {
+        System.out.println(tweet.toString());
+        ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(KafkaConfig.TOPIC_TWITTER_TWEETS, Long.valueOf(tweet.getId()).toString(), tweet.getText());
+        send.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("something happended here", ex);
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, String> result) {
+                log.info("Partition :{}, Offset : {}", result.getRecordMetadata().partition(), result.getRecordMetadata().offset());
+            }
+        });
     }
 
+    @Override
+    public void onDelete(StreamDeleteEvent deleteEvent) {
+        System.out.println(deleteEvent.toString());
+    }
+
+    @Override
+    public void onLimit(int numberOfLimitedTweets) {
+        System.out.println(numberOfLimitedTweets);
+    }
+
+    @Override
+    public void onWarning(StreamWarningEvent warningEvent) {
+        System.out.println(warningEvent.toString());
+    }
 }

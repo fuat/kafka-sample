@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2007-2019 Ippen Digital GmbH & Co. KG / Munich / Germany
  */
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.config;
 
 
 import org.elasticsearch.client.RestHighLevelClient;

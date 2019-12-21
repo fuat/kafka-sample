@@ -6,7 +6,7 @@
  *
  * Copyright (C) 2007-2019 Ippen Digital GmbH & Co. KG / Munich / Germany
  */
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -18,12 +18,14 @@ import org.springframework.kafka.config.TopicBuilder;
 @EnableKafka
 public class KafkaConfig {
 
+    public static final String TOPIC_TWITTER_TWEETS = "twitter_tweets";
+
     @Bean
     public NewTopic tweetsTopic() {
-        return TopicBuilder.name("twitter_tweets")
+        return TopicBuilder.name(TOPIC_TWITTER_TWEETS)
                 .partitions(6)
                 .replicas(1)
-                .config("min.insync.replicas", "2")
+//                .config("min.insync.replicas", "2")
                 .build();
     }
 }

@@ -1,8 +1,7 @@
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
 public class Application {
