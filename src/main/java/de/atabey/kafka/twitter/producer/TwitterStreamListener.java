@@ -1,4 +1,4 @@
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.producer;
 
 import de.atabey.kafka.twitter.config.KafkaConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Slf4j
 @Component
-class TwitterStreamListener implements StreamListener {
+public class TwitterStreamListener implements StreamListener {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
@@ -26,7 +26,7 @@ class TwitterStreamListener implements StreamListener {
 
     @Override
     public void onTweet(Tweet tweet) {
-        System.out.println(tweet.toString());
+        log.info(tweet.toString());
         ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(KafkaConfig.TOPIC_TWITTER_TWEETS, Long.valueOf(tweet.getId()).toString(), tweet.getText());
         send.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override

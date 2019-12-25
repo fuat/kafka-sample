@@ -1,4 +1,4 @@
-package de.atabey.kafka.twitter;
+package de.atabey.kafka.twitter.consumer;
 
 import de.atabey.kafka.twitter.config.KafkaConfig;
 import de.atabey.kafka.twitter.model.Tweet;

@@ -8,6 +8,7 @@
  */
 package de.atabey.kafka.twitter;
 
+import de.atabey.kafka.twitter.producer.TwitterStreamListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
