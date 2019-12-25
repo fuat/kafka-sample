@@ -1,6 +1,7 @@
 package de.atabey.kafka.twitter.producer;
 
 import de.atabey.kafka.twitter.config.KafkaConfig;
+import de.atabey.kafka.twitter.model.MyTweet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,28 +18,32 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 @Component
 public class TwitterStreamListener implements StreamListener {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, MyTweet> kafkaTemplate;
 
     @Autowired
-    TwitterStreamListener(KafkaTemplate<String, String> kafkaTemplate) {
+    TwitterStreamListener(KafkaTemplate<String, MyTweet> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public void onTweet(Tweet tweet) {
         log.info(tweet.toString());
-        ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(KafkaConfig.TOPIC_TWITTER_TWEETS, Long.valueOf(tweet.getId()).toString(), tweet.getText());
-        send.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+        ListenableFuture<SendResult<String, MyTweet>> send = kafkaTemplate.send(KafkaConfig.TOPIC_TWITTER_TWEETS, Long.valueOf(tweet.getId()).toString(), mapTweet(tweet));
+        send.addCallback(new ListenableFutureCallback<SendResult<String, MyTweet>>() {
             @Override
             public void onFailure(Throwable ex) {
                 log.error("something happended here", ex);
             }
 
             @Override
-            public void onSuccess(SendResult<String, String> result) {
+            public void onSuccess(SendResult<String, MyTweet> result) {
                 log.info("Partition :{}, Offset : {}", result.getRecordMetadata().partition(), result.getRecordMetadata().offset());
             }
         });
+    }
+
+    private MyTweet mapTweet(Tweet tweet) {
+        return new MyTweet(tweet.getId(), tweet.getText());
     }
 
     @Override

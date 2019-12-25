@@ -8,16 +8,18 @@
  */
 package de.atabey.kafka.twitter.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
 @Document(indexName = "tweet")
-public class Tweet {
+@AllArgsConstructor
+public class MyTweet {
 
     @Id
-    private final String id;
+    private final long id;
 
     private String message;
 

@@ -1,7 +1,7 @@
 package de.atabey.kafka.twitter.consumer;
 
 import de.atabey.kafka.twitter.config.KafkaConfig;
-import de.atabey.kafka.twitter.model.Tweet;
+import de.atabey.kafka.twitter.model.MyTweet;
 import de.atabey.kafka.twitter.model.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,7 +18,7 @@ public class TweetConsumer {
     }
 
     @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS})
-    public void consumeTweets(Tweet tweet) {
-        tweetRepository.save(tweet);
+    public void consumeTweets(MyTweet myTweet) {
+        tweetRepository.save(myTweet);
     }
 }
