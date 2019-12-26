@@ -19,6 +19,7 @@ import java.util.Random;
 @Slf4j
 public class TweetConsumer {
 
+    public static final String GROUP_ID = "tweetApp";
     private final TweetRepository tweetRepository;
     private final Random random = new Random();
 
@@ -28,7 +29,7 @@ public class TweetConsumer {
     }
 
     //    spring.kafka.listener.ack-mode=manual
-//    @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS})
+//    @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS}, groupId = GROUP_ID)
     public void consumeTweet(@Payload MyTweet myTweet, Acknowledgment acknowledgment) {
         tweetRepository.findById(myTweet.getId()).ifPresent(tweet -> log.warn("Tweet with id {} exists already", tweet.getId()));
         if (random.nextInt() % 3 == 0) {
@@ -40,7 +41,7 @@ public class TweetConsumer {
         acknowledgment.acknowledge();
     }
 
-    @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS})
+//    @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS}, groupId = GROUP_ID)
     public void consumeTweetsInBatch(List<Message<MyTweet>> messageList, Acknowledgment acknowledgment) {
         Iterator<Message<MyTweet>> iterator = messageList.iterator();
         while (iterator.hasNext()) {
