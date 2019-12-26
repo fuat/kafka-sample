@@ -27,7 +27,7 @@ public class TwitterStreamListener implements StreamListener {
 
     @Override
     public void onTweet(Tweet tweet) {
-        log.info(tweet.toString());
+        log.debug("ID: {}, Text {}", tweet.getId(), tweet.getText());
         ListenableFuture<SendResult<String, MyTweet>> send = kafkaTemplate.send(KafkaConfig.TOPIC_TWITTER_TWEETS, Long.valueOf(tweet.getId()).toString(), mapTweet(tweet));
         send.addCallback(new ListenableFutureCallback<SendResult<String, MyTweet>>() {
             @Override
@@ -37,7 +37,7 @@ public class TwitterStreamListener implements StreamListener {
 
             @Override
             public void onSuccess(SendResult<String, MyTweet> result) {
-                log.info("Partition :{}, Offset : {}", result.getRecordMetadata().partition(), result.getRecordMetadata().offset());
+                log.debug("Partition :{}, Offset : {}", result.getRecordMetadata().partition(), result.getRecordMetadata().offset());
             }
         });
     }

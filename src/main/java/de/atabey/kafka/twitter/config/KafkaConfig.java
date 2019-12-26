@@ -19,6 +19,7 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.converter.JsonMessageConverter;
 
 import java.util.Map;
 
@@ -53,4 +54,9 @@ public class KafkaConfig {
 //    public ConsumerFactory consumerFactory() {
 //        return new DefaultKafkaConsumerFactory<Integer, String>(kafkaProperties.buildConsumerProperties());
 //    }
+
+    @Bean
+    public JsonMessageConverter jsonMessageConverter() {
+        return new JsonMessageConverter();
+    }
 }
