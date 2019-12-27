@@ -15,13 +15,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.ContainerCustomizer;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.AbstractMessageListenerContainer;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.converter.JsonMessageConverter;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @EnableKafka
@@ -47,6 +51,7 @@ public class KafkaConfig {
 //        ConcurrentKafkaListenerContainerFactory factory = new ConcurrentKafkaListenerContainerFactory();
 //        factory.setConsumerFactory(consumerFactory());
 //        factory.setConcurrency(4);
+//        factory.setContainerCustomizer(containerCustomizer());
 //        return factory;
 //    }
 //
@@ -59,4 +64,12 @@ public class KafkaConfig {
     public JsonMessageConverter jsonMessageConverter() {
         return new JsonMessageConverter();
     }
+
+//    private ContainerCustomizer containerCustomizer() {
+//        return new ContainerCustomizer() {
+//            @Override
+//            public void configure(AbstractMessageListenerContainer container) {
+//            }
+//        };
+//    }
 }
