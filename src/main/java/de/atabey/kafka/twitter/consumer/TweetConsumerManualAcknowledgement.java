@@ -15,16 +15,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-@Component
+//@Component
 @Slf4j
-public class TweetConsumer {
+public class TweetConsumerManualAcknowledgement {
 
     public static final String GROUP_ID = "tweetApp";
     private final TweetRepository tweetRepository;
     private final Random random = new Random();
 
     @Autowired
-    public TweetConsumer(TweetRepository tweetRepository) {
+    public TweetConsumerManualAcknowledgement(TweetRepository tweetRepository) {
         this.tweetRepository = tweetRepository;
     }
 

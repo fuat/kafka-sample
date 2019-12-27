@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.Optional;
 
-@Component
+//@Component
 @Slf4j
 public class ConsumerConsistencyChecker extends AbstractConsumerSeekAware {
 
@@ -30,7 +30,7 @@ public class ConsumerConsistencyChecker extends AbstractConsumerSeekAware {
         this.tweetRepository = tweetRepository;
     }
 
-    @KafkaListener(topics = {KafkaConfig.TOPIC_TWITTER_TWEETS}, groupId = GROUP_ID,
+    @KafkaListener(topics = {KafkaConfig.TOPIC_RECORD_TWEETS}, groupId = GROUP_ID,
             properties = {"auto.offset.reset=earliest"})
     public void checkConsistency(@Payload MyTweet myTweet, Acknowledgment acknowledgment) {
         Optional<MyTweet> tweet = tweetRepository.findById(myTweet.getId());
